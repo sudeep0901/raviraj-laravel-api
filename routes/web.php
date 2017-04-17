@@ -30,3 +30,7 @@ Route::get('/customers', function () {
 
 Route::resource('customer', 'CustomerController');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
