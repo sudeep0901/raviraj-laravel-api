@@ -29,6 +29,7 @@ Route::get('/admin', function () {
 });
 
 
+
 //Route::group(['middleware'=>'cors','prefix'=>'api'], function (){
 //    Route::get('book', 'BookController@index');
 //    Route::post('book', 'BookController@createBook');
@@ -46,7 +47,7 @@ Route::get('/home', 'HomeController@index');
 Route::resource('admin/users', 'AdminUsersController');
 
 Route::group(['middleware'=>'cors','prefix'=>'api'], function (){
-   Route::get('admin/users', 'AdminUserController@index');
-   Route::post('admin/users', 'AdminUserController@create');
+   Route::get('admin/users', 'AdminUsersController@index');
+   Route::post('admin/users', 'AdminUsersController@create');
    
 });
