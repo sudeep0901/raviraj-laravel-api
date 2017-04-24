@@ -25,8 +25,15 @@
   @foreach($users as $user)
     <tr>
       <th scope="row">{{$user->id}}</th>
-      <td><img src="" height="100" width="100" alt=""></td>
-      <td>{{$user->name}}</td>
+
+      
+      <td><img class="img-rounded" src="/images/{{$user->photo ? $user->photo->file :"no user photo"}}"  height="60" width="60"  ></td>
+          
+
+        <td><a href="{{ URL::route('users.edit', $user->id) }}" /> {{$user->name}}</td>
+
+      {{-- <td><a href="{{'/'. $user->id . '/edit'}}" /> {{$user->name}}</td> --}}
+
       <td>{{$user->is_active==1 ? 'Active' : 'Inactive'}}</td>
       <td>{{$user->email}}</td>
       <td>{{$user->mobile}}</td>

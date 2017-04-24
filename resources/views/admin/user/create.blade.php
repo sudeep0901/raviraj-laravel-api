@@ -7,6 +7,7 @@
 <hr> 
 
 
+
 @if(count($errors) > 0) 
    
    
@@ -43,6 +44,11 @@
    		{!! Form::label('email',	'E-mail') !!}
    		{!! Form::text('email',null,['class'=>'form-control']) !!}
    	</div>
+
+<div class="form-group">
+         
+         <input type='text' name='html'>
+      </div>
 
 	<div class="form-group">
    		{!! Form::label('mobile',	'Mobile') !!}

@@ -30,10 +30,10 @@ Route::get('/admin', function () {
 
 
 
-//Route::group(['middleware'=>'cors','prefix'=>'api'], function (){
-//    Route::get('book', 'BookController@index');
-//    Route::post('book', 'BookController@createBook');
-//});
+Route::group(['middleware'=>'cors','prefix'=>'api'], function (){
+   Route::get('book', 'BookController@index');
+   Route::post('book', 'BookController@createBook');
+});
 
 
 Route::resource('customer', 'CustomerController');
@@ -42,12 +42,14 @@ Route::resource('customer', 'CustomerController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-
+// Route::put('users/{id}', 'AdminUsersController@update');
 
 Route::resource('admin/users', 'AdminUsersController');
+// Route::put('admin/users/{id}/edit', 'AdminUsersController@update');
 
-Route::group(['middleware'=>'cors','prefix'=>'api'], function (){
-   Route::get('admin/users', 'AdminUsersController@index');
-   Route::post('admin/users', 'AdminUsersController@create');
+// Route::group(['middleware'=>'cors','prefix'=>'api'], function (){
+//    Route::get('admin/users', 'AdminUsersController@index');
+//    Route::get('admin/users', 'AdminUsersController@edit');
+//    Route::post('admin/users', 'AdminUsersController@create');
    
-});
+// });
