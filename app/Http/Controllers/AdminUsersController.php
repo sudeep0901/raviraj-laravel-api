@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Middleware\Auth;
+use App\Http\Requests\UsersRequest;
+use Response;
+
 
 use App\User;
 use App\Role;
-use Illuminate\Http\Request;
 use App\Photo;
 
-use App\Http\Requests\UsersRequest;
+
 
 
 class AdminUsersController extends Controller
@@ -17,15 +21,22 @@ class AdminUsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-
         $users = User::all();
 
-        // return $users;
         
-        return view('admin.user.index', compact('users'));
+        if($request->is('view/*')) {
+            // echo $request->url();
+    
+            return view('admin.user.index', compact('users'));
+    
+        } else {
+    // do the other response
+    return $users;
+}
+        
     }
 
     /**
@@ -45,6 +56,8 @@ class AdminUsersController extends Controller
 
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -57,16 +70,18 @@ class AdminUsersController extends Controller
 
         // $input = $request->all();
 
-        if(trim($request->password = ' ')) {
+        // if(trim($request->password = ' ')) {
 
-            $input = $request->except('password');
+        //     $input = $request->except('password');
 
-        } else {
+        // } else {
 
-            $input =  $request->all();
+        //     $input =  $request->all();
 
-        }
-        
+        // }
+
+        $input =  $request->all();
+
         if($file = $request->file('photo_id'));
         {   
             $name = time() . $file->getClientOriginalName();
@@ -81,13 +96,22 @@ class AdminUsersController extends Controller
 
 
         $input['password']=bcrypt($request->password);
+        
+        $input['password']=$request->password;
 
         User::create($input);
-        // return $request->all();
+        // return $ request->all();
 
-        return redirect('/admin/users');
+        return redirect('/admin/users');    
          
+                 if($request->is('view/*')) {
+                    
         return view('admin.users.index',compact('$input'));
+    }
+    else {
+
+        return $input;
+    }
 
     }
 
@@ -110,7 +134,7 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request  $request)
     {
         //
 
@@ -118,9 +142,18 @@ class AdminUsersController extends Controller
 
         $roles = Role::pluck('name', 'id')->all();
 
-        return view('admin.user.edit', compact('user', 'roles'));
-    }
 
+        if($request->is('view/*')) {
+
+        return view('admin.user.edit', compact('user', 'roles'));
+
+    }else
+    {
+        return Response::json(array('user' => $user, 'roles' => $roles), 200);
+
+    }
+    
+}
     /**
      * Update the specified resource in storage.
      *
@@ -178,13 +211,16 @@ class AdminUsersController extends Controller
     {
         //
 
-                $user = User::findOrFail($id);
-                if($user) {
+        $user = User::findOrFail($id);
+                
+        unlink(public_path(). '/images/'. $user->photo->file);
+                
+        $user->delete();
 
-                    $users->destroy($user);
-                }
 
-                return redirect('/admin/users');
+        session()->flash('delete_user', 'Deleted users');
+    
+    return redirect('/admin/users');
 
     }
 }

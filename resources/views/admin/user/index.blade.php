@@ -4,6 +4,12 @@
 
 @section('content') 
 <h1 id="header"> Users Index</h1>
+
+@if(session()->get('delete_user')) 
+
+  <h3 class="alert-danger"> {{session()->get('delete_user')}}</h3>
+@endif
+
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -23,6 +29,7 @@
   @if($users)
 
   @foreach($users as $user)
+
     <tr>
       <th scope="row">{{$user->id}}</th>
 

@@ -44,7 +44,25 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 // Route::put('users/{id}', 'AdminUsersController@update');
 
-Route::resource('admin/users', 'AdminUsersController');
+
+Route::group(['prefix'=>'view'], function (){
+
+	Route::resource('admin/users', 'AdminUsersController');
+
+   
+});
+Route::group(['prefix'=>'api'], function (){
+
+	Route::resource('admin/users', 'AdminUsersController');
+	Route::resource('role', 'RolesController');
+	Route::resource('customer', 'CustomerController');
+
+   
+});
+
+
+
+
 // Route::put('admin/users/{id}/edit', 'AdminUsersController@update');
 
 // Route::group(['middleware'=>'cors','prefix'=>'api'], function (){
